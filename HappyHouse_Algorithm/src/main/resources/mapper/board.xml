@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.BoardMapper">
+	<insert id="insertboard" parameterType="BoardDTO">
+		insert into
+		board(id,subject,contents)
+		value(#{id},#{subject},#{contents});
+	</insert>
+	<select id="listboard" resultType="BoardDTO">
+		select no,id,subject,contents
+		from board;
+	</select>
+	<delete id="deleteboard" parameterType="BoardDTO">
+		delete from board
+		where no
+		= #{no}
+	</delete>
+	<update id="updateboard" parameterType="BoardDTO">
+		update board
+		set subject =
+		#{subject}, contents=
+		#{contents}
+		where no = #{no}
+	</update>
+</mapper>
