@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper
+	namespace="com.ssafy.happyhouse.model.mapper.CommentsMapper">
+	<insert id="insertcomments" parameterType="CommentsDTO">
+		insert into
+		comments(id, communityno, content)
+		value(#{id}, #{communityno}, #{content});
+	</insert>
+
+	<select id="listcomments" parameterType="String" resultType="CommentsDTO">
+		select * from comments where communityno = #{no};
+	</select>
+	<delete id="deletecomments" parameterType="String">
+		delete from comments
+		where no = #{no}
+	</delete>
+	<update id="updatecomments" parameterType="map">
+		update comments
+		set
+		content= #{content},
+		regtime = CURRENT_TIMESTAMP,
+		updatetime= 1
+		where no = #{no}
+	</update>
+</mapper>

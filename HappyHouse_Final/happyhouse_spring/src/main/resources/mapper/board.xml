@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.BoardMapper">
+	<insert id="insertboard" parameterType="BoardDTO">
+		insert into
+		board(id,subject,contents)
+		value(#{id},#{subject},#{contents});
+	</insert>
+	<select id="listboard" resultType="BoardDTO">
+		select *
+		from board
+		order by no desc
+	</select>
+	<delete id="deleteboard" parameterType="BoardDTO">
+		delete from board
+		where no = #{no}
+	</delete>
+	<update id="updateboard" parameterType="BoardDTO">
+		update board
+		set subject =
+		#{subject}, contents=
+		#{contents}, 		
+		regtime = CURRENT_TIMESTAMP,
+		updatetime= 1
+		where no = #{no}
+	</update>
+	<update id="updateboardhit" parameterType="int">
+		update board
+		set hit = hit + 1
+		where no = #{no}
+	</update>
+	<select id="detailBoard" parameterType="int"
+		resultType="BoardDTO">
+		select *
+		from board where no =
+		#{articleno}
+	</select>
+
+	<select id="searchlistboard" parameterType="map"
+		resultType="BoardDTO">
+		select * from board
+		where 1 = 1
+		<if test='select != "전체"'> and ${select} like CONCAT('%', #{content}, '%') </if>
+		<if test='select == "전체"'>
+			and id like CONCAT('%', #{content}, '%')
+			or subject like CONCAT('%', #{content}, '%')
+		</if>
+		order by no desc
+		Limit ${start}, ${perpage}
+		
+	</select>
+	<select id="totalCount" parameterType="map"
+		resultType="int">
+		select count(*) from board
+		where 1 = 1
+		<if test='select != "전체"'> and ${select} like CONCAT('%', #{content}, '%') </if>
+		<if test='select == "전체"'>
+			and id like CONCAT('%', #{content}, '%')
+			or subject like CONCAT('%', #{content}, '%')
+		</if>
+
+	</select>
+</mapper>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper
+	namespace="com.ssafy.happyhouse.model.mapper.CommunityMapper">
+	<insert id="insertcommunity" parameterType="CommunityDTO">
+		insert into
+		Community(id,subject,content, sidoname, gugunname,dongname,keyword)
+		value(#{id},#{subject},#{content},#{sidoname},#{gugunname},#{dongname},#{keyword});
+	</insert>
+	<select id="listcommunity" resultType="CommunityDTO">
+		select * from Community
+		order by no desc;
+	</select>
+	<delete id="deletecommunity" parameterType="CommunityDTO">
+		delete from Community
+		where no = #{no};
+	</delete>
+	<update id="updatecommunity" parameterType="CommunityDTO">
+		update Community
+		set
+		subject = #{subject},
+		content= #{content},
+		sidoname= #{sidoname},
+		gugunname= #{gugunname},
+		dongname= #{dongname},
+		keyword= #{keyword},
+		regtime = CURRENT_TIMESTAMP,
+		updatetime= 1
+		where no = #{no}
+	</update>
+
+
+	<update id="updatecommunityhit" parameterType="int">
+		update Community
+		set hit = hit + 1
+		where no = #{no}
+	</update>
+	<select id="detailcommunity" parameterType="int"
+		resultType="CommunityDTO">
+		select *
+		from Community where no =
+		#{articleno}
+	</select>
+	<delete id="deletecomments" parameterType="CommunityDTO">
+		delete from comments
+		where communityno = #{no};
+	</delete>
+
+
+
+
+	<!-- 검색 -->
+	<!-- <select id="listsido" parameterType="map" resultType="CommunityDTO"> 
+		select * from Community where 1 = 1 <if test='sidoname != "null"'> and sidoname 
+		= #{sidoname} </if> <if test='keyword != "전체"'> and keyword = #{keyword} 
+		</if> </select> <select id="listgugun" parameterType="map" resultType="CommunityDTO"> 
+		select * from Community where 1 = 1 <if test='sidoname != "null"'> and sidoname 
+		= #{sidoname} </if> <if test='gugunname != "null"'> and gugunname = #{gugunname} 
+		</if> <if test='keyword != "전체"'> and keyword = #{keyword} </if> </select> -->
+	<select id="listdong" parameterType="map"
+		resultType="CommunityDTO">
+		select * from Community where 1 = 1
+		<if test='sidoname != "null"'> and sidoname = #{sidoname} </if>
+		<if test='gugunname != "null"'> and gugunname = #{gugunname} </if>
+		<if test='dongname != "null"'> and dongname = #{dongname} </if>
+		<if test='keyword != "전체"'> and keyword = #{keyword}
+		</if>
+		order by no desc
+		Limit ${start}, ${perpage}
+		
+	</select>
+	<!-- <select id="keywordlist" parameterType="map" resultType="CommunityDTO"> 
+		select * from Community <if test='keyword != "전체"'> where keyword = #{keyword} 
+		</if> </select> -->
+		
+		<select id="totalCount" parameterType="map"
+		resultType="int">
+		select count(*) from Community where 1 = 1
+		<if test='sidoname != "null"'> and sidoname = #{sidoname} </if>
+		<if test='gugunname != "null"'> and gugunname = #{gugunname} </if>
+		<if test='dongname != "null"'> and dongname = #{dongname} </if>
+		<if test='keyword != "전체"'> and keyword = #{keyword}
+		</if>
+	</select>
+	
+	
+	<select id="lastCommunity" resultType="CommunityDTO">
+		SELECT * FROM community ORDER BY no DESC LIMIT 1
+	
+	</select>
+</mapper>

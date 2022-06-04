@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ssafy.happyhouse.model.mapper.UserInterMapper">
+	<insert id="insertUserInter" parameterType="UserInterDTO">
+		insert into
+		userinter(id,selsidocode,selguguncode,seldongcode, aptName, img, roadname, jibun, buildyear)
+		values(#{id},#{selsidocode},#{selguguncode},#{seldongcode},
+		#{aptName}, #{img}, #{roadname},#{jibun}, #{buildyear});
+	</insert>
+	<delete id="deletetUserInter" parameterType="UserInterDTO">
+		delete from
+		userinter
+		where selsidocode = #{selsidocode}
+		and selguguncode
+		=
+		#{selguguncode}
+		and seldongcode = #{seldongcode}
+	</delete>
+
+
+	<delete id="deleteuserinterdetail" parameterType="String">
+		delete from
+		userinter
+		where no=#{no}
+	</delete>
+
+	<select id="listUserInter" parameterType="string"
+		resultType="UserInterDTO">
+
+		<!-- select selsidocode, selguguncode, seldongcode from userinter where 
+			id = #{id} and aptName is null -->
+		select distinct selsidocode, selguguncode, seldongcode from userinter
+		where id = #{value};
+	</select>
+
+	<select id="listuserinterdetail" parameterType="UserInterDTO"
+		resultType="UserInterDTO">
+
+		<!-- select * from userinter where id = 'bbb381' and selsidocode = '경기도' 
+			and selguguncode = '수원시 장안구' and seldongcode = '율전동' and aptName != 'null'; -->
+		select *
+		from userinter
+		where id = #{id}
+		and selsidocode
+		= #{selsidocode}
+		and selguguncode = #{selguguncode}
+		and seldongcode =
+		#{seldongcode}
+		and
+		aptName != 'null'
+	</select>
+
+	<select id="listUserInterDuplication"
+		parameterType="UserInterDTO" resultType="UserInterDTO">
+		select *
+		from userinter where
+		id = #{id}
+		and selsidocode =
+		#{selsidocode}
+		and selguguncode =
+		#{selguguncode}
+		and seldongcode =
+		#{seldongcode}
+		and aptName = #{aptName}
+	</select>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ssafy.happyhouse.model.mapper.AptMapper">
+	<select id="select" parameterType="map" resultType="AptDTO">
+		select * from
+		houseinfo
+		where dongCode = (select dongCode from dongcode
+		where
+		sidoName=#{sidoName} and
+		gugunName = #{gugunName}and
+		dongName=#{dongName})
+		<if test='key != "null"'>and ${key} like CONCAT('%', #{word}, '%')</if>
+		<if test='key == "null"'>and aptName = #{word}</if>
+	</select>
+	<select id="selectdetail" parameterType="String"
+		resultType="AptDetailDTO">
+		select * from housedeal
+		where aptCode = #{aptcode};
+	</select>
+
+
+</mapper>
+
+<!-- select aptName, hi.lat, hi.lng, dealAmount, dealYear, dealMonth, dealDay, 
+	area from baseaddress b join houseinfo hi on (b.dongcode = hi.dongcode) join 
+	housedeal hd on (hi.aptCode = hd.aptCode) where b.sidoName = #{sidoName} 
+	and b.gugunName = #{gugunName} and b.dongName = #{dongName} and ${key} like 
+	#{word} -->
